@@ -1,0 +1,13 @@
+{
+  "name": "trello-coding-challenge",
+  "version": "0.3.0",
+  "description": "Trello Coding Challenge",
+  "main": "js/main.js",
+  "private": true,
+  "author": "Michael Woloszuk",
+  "devDependencies": {
+    "karma": "^0.12.19",
+    "karma-jasmine": "^0.1.5",
+    "karma-phantomjs-launcher": "^0.1.4"
+  }
+}
