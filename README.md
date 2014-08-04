@@ -1,2 +1,3 @@
-trello-coding-challenge
+Trello Coding Challenge
 =======================
+
