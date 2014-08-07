@@ -1,5 +1,5 @@
 function Parser(string) {
-	return this.parse();
+	this.string = string;
 }
 
 Parser.prototype = {
@@ -10,20 +10,20 @@ Parser.prototype = {
 		console.time('Parsed in');
 		while (pairsPresent) {
 			largest = this.getFirstValid(this.createSorted(this.storeMultiples()));
-			string = this.change(largest);
-			console.log(string);
+			this.string = this.change(largest);
+			console.log(this.string)
 			pairsPresent = this.check(this.storeMultiples());
 		}
-		string = this.strip(string);
+		this.string = this.strip(this.string);
 		console.timeEnd('Parsed in');
-		console.log(string);
-		return string;
+		console.log(this.string);
+		return this.string;
 	},
 
 	// Return an object of characters as properties and their index values as array values
 	// Example: For string, 'hello', return object {'h': [0], 'e': [1], 'l': [2,3], 'o': [4]}
 	storeMultiples: function () {
-		var str = string
+		var str = this.string
 		  , hash = {};
 		for (i = 0; i < str.length; i++) {
 			if (hash[str[i]]) {
@@ -46,7 +46,7 @@ Parser.prototype = {
 
 	// Return string after removing the character pair and adding a copy of the character to the end
 	change: function (obj) {
-		var str = string
+		var str = this.string
 		  , letter = str[obj.b];
 		str = this.splicer(str, obj.b, 1);
 		str = this.splicer(str, obj.a, 1);
@@ -57,7 +57,7 @@ Parser.prototype = {
 	// Create array of all pairs, sorted by largest, left-most pairs
 	createSorted: function (obj) {
 		var pairs = []
-			, all = [];
+		  , all = [];
 		for (i in obj) {
 			pairs = this.createPairs(obj[i]);
 			for (var j = 0; j < pairs.length; j++) {
@@ -71,7 +71,7 @@ Parser.prototype = {
 	getFirstValid: function (arr) {
 		var point = {};
 		for (var k = 0; k < arr.length; k++) {
-			point = this.checkValid(arr[k][1], arr[k][0], string);
+			point = this.checkValid(arr[k][1], arr[k][0]);
 			if (point) {
 				return point;
 			}
@@ -126,7 +126,7 @@ Parser.prototype = {
 
 	// Check for repeated characters in the substring between a pair of character indexes
 	pairCheck: function (a, b) {
-		var between = string.substr(a+1, b-a-1);
+		var between = this.string.slice(a+1, b);
 		if (this.findRepeated(between)) {
 			return false;
 		} else {
@@ -156,7 +156,7 @@ Parser.prototype = {
 	strip: function (str) {
 		var underscore = str.indexOf('_');
 		if (underscore >= 0) {
-			return str.substr(0, underscore);
+			return str.slice(0, underscore);
 		} else {
 			return str;
 		}
@@ -166,4 +166,4 @@ Parser.prototype = {
 
 var string = "hpevfwqjmjryhemuqjoiatpjmddxdjwzskdcfgdtbmkbcxrnmjuoyddnqwluimjwvguxehszxzvbmufqlrepncxxbrrzxnzmkoyhrjcstvfazyhrhgssximjdfcmdjusylfkwbedyrsxovrmvjzaljfjmywpfnjgisoqbdyspgzlcmdjmhbpxhzvvhckidzuwzkauffsujmcrhvgeqvasjakgtzlxkthjqwxypmsovjbfshrrxtdvkmbyhejoeydnrdowuwhgmbvxmpixyttglsjgmcoqbberssfjraaqfrkmebsozsjfnubhktbbai_vxbifbofyednnutmxtisvfsktbqfijfzdjoqybuohtztysqelaqyixyaiolbgwylwfisfwubivuoablxsmrqggedwyiqvseevwbcxcfjttdbweedcjgnsorizflsjtmltcoaynsrsupavqwcyzhgiplwkohlhrainazaacvuqblpbzimgoxirejbshnbmdtgsbvlhpnugggencjaczqqiwixrwiyobmlkbwdlwcioqmjhoacdvcqdypxeichmgywocbcafumthdqrbjnpgnnmaasxiaxxfymcyiuqduztqneodstbcnjpeebgxgosoydvpzlqjuroebbehafsemanwprhwkircuhlgcftqsjdusrqetbthxclfokpdlspxzuvhxpbeqqbfpqffsgyilqltfxrmtimcugytazkerhcfnirtavcnmfdyictlncwttkmxyfhgejygfefqrjknuqsfldmjmwjdfqsicfrzbfazchdgznekwmhridelcejnkmcgmpgtihbwmplrtrrefoyhyzxpjjlkabbbgspeokzhpjxsvpfjmdsoripvfrgyzxodoeirwwdaofdmwqrqyvdijlfqyzfspdoyrhewxbpufdqcpqdolkmrnvedixzpfdakggkslxcrjbrmnynviihbkzaqqffkkcgwjbettexhlwlasdfjnslwsmnclhafvebxxfdozsjtdvobikrrsuysujwliobagobxmlyxjeltwzwxpyrnkdxfemotfncyriaycyfemygjmpboocgtsvttqntegvleynwgpjhyyysbltoxljsascsngbgfqmpzgpejzlmdkjzzlfxvagyrasmpzqntgqsvyqjugkhbrbkiqewlyftvsq_______znp_____xkwt______wef______tz______kfc_______ha_______pn__lmg__iakrbtiyfi__uojrxvx__tps__fp__pfpndbi__ggpalde__wmd__kn__ifiadob__hdljdbd__zl__whlwiltbcmt__haagmjg__dwx__oh__utnzudq__xstxxyc__vly__mr__viilzav__swosyvc__i__hnaqxyevjykc__wyfoyir__ewp__ij__mrdavxl__tcdtxqy__fnr__cf__mrkepwj__djhrsau____lhefqxgmuzdgf______tjg__fip__mi__b____xc__vjvhpqy______vff_____wuup_____kqct___htiggvvpetyvco__pqbrlox__ayj__af__dnn__kx__mlitytx____jauna__kncmiym__dlwushk____gjptzccgcnntt__hfqyxzi__eqn__vz__hlh__we__dtfkfvf__g__litm__zeqjtdl__bkdapxs__o__oxeouwerbfjr__ipcqmop__kec__ip__icc__ci__vpxxueu__eq__sau__nhheydy__efqkdgq__us__pzlndhkhdmk__cmfvzwcb_____xdka______trj______yj__xpi__he_______nb_______by__rrn__tvxvigjfpseyjjbrrtsfnmbrokdqtfzhhdtbhtvpiyshmvcqaypfxcvbgvbvwrkanjfcsjnanmktkwimnvynukcmgtqmovkrdmfuduqvbqydagsttictcnsrhfrpoebcehdzhjamykqpjtktufcvokljjijjsrivyhxtgwojgoujyhmekzsoczwlqnruwcuhudgfaijzrkewzgjvorsmabpcdmurctwjrddcnkmfvabjwlbqssihdybgfqchqdvjcsdllrlwmyikuvthguzfbgocaeqktvbcapzdcfjphqnhundtljqjeyfrkjspfvghqddxwxidtjjkctrkfcjmdpqyvavqbntpmkkuswfgbgalrysjfnzezjjscahoodjjelavydefzjmhsqfufsexlvvzziymsyqrcvhsrxjnysioswvjlqdbnwgyjlanmhzkbygkptycdoifsibytbrixggjeiepaybzxhvfsyayeptgpxbhhfkkpromhjykfxnujorlzcmkcmvvgmveyfkgiwgosznfpmbhixsakxfkuxhwcgularehpaguquulrjllxmkfzgnchrxzcfdklytpfnezergkwkhgalqlvdhkdgulgfaxtybqttcjtlgmfwaymaxlwaspyrboibwkzzbtgigyswbtpwxgphcmkfpmvbfjimnxctinqssshofhlvlpqcwiuacjyxyqmvaibezofvatyhpqvjubgcwqeoytloypjphoxeimumuvswxkgamodoxiciwmgxvsenkgdhttzlenjbszrksopicjcjnvsosrapkfilwsaoptdavlfglioqpwoqskbgikksnnuzvmxyrtrbjouvgokxgbnwxnivtykvhjkaydskzoowbhjrlojgeecdoggqqtomcdgrjzmlkhubyaewwtrlyutsptdrrigopueicoganyasrjeaiivzairulklovyrpckwpowprxtvhaeivpudfchxbwvtosmivpcsesbzpsynxitlisuifuehceonjeydljzuzpsgjllcywoxbblitscquxiykcjxhsgkbhfhfrshsrpyrcaetahuwbeybvlvkthxydkapxlfikdwudjkmjjsazajxpuikiqwsifhldfovqoycwmtlmcaycirhcehxnpfadrgyaogpcmomcgtmacnvbwfnimaqqvxijcbpmckwimloiinindfuakqjmpyjisxnbybtywhymnkdoyiphijzelmrazplgfcmcsjiovxqdxmuqulzklgx";
 
-new Parser(string);
+new Parser(string).parse();
